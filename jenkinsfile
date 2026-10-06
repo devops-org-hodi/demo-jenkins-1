@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+
+    stages{
+        stage("test"){
+            steps{
+                sh 'ls'
+                sh 'date > file1.txt'
+            }
+        }
+        stage("B2"){
+            steps{
+                sh 'echo hello'
+            }
+        }        
+        stage("B3"){
+            steps{
+                sh 'echo hello'
+            }
+        }
+        stage("B4"){
+            steps{
+                sh 'echo hello'
+            }
+        }
+    }
+    post{
+        always{ 
+            cleanWs()
+         }
+        success{
+            echo 'pipeline finished .... '
+        }
+        failure{
+            echo 'check your code man - if its not working put the laptop in the freezer '
+        }
+    }
+}
