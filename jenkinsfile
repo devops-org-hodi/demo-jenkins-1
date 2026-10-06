@@ -11,7 +11,15 @@ pipeline{
             steps{
                 echo "========= building docker images ========="
                 sh 'docker ps'
-                sh "docker build -t $DOCKER_IMAGE ./src/ "
+                sh """docker build \
+                      -t $DOCKER_IMAGE \
+                      ./src/ 
+                   """
+            }
+        }
+        post{
+            success{
+                sh "docker images | grep -i $APP_NAME "
             }
         }
         stage("test"){
@@ -33,6 +41,7 @@ pipeline{
     post{
         always{ 
             cleanWs()
+            sh "docker rmi  $DOCKER_IMAGE "
          }
         success{
             echo 'pipeline finished .... '
