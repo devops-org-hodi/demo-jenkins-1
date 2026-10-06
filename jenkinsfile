@@ -38,8 +38,11 @@ pipeline{
         }
         stage("test"){
             steps{
-                dir('./e2e') {
-                    sh """ chmod 777 test.sh && ./test.sh"""
+                sh "pwd ; ls"
+                dir("$TEST_DIR/e2e") {
+                    sh "pwd ; ls"
+                    sh " chmod 777 test.sh"
+                    sh " ./test.sh"
                 }
                 
             }
