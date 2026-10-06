@@ -4,8 +4,9 @@ pipeline{
     stages{
         stage("build"){
             steps{
-                sh 'ls'
-                sh 'date > file1.txt'
+                echo "========= building docker images ========="
+                sh 'docker ps'
+                
             }
         }
         stage("test"){
