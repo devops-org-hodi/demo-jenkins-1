@@ -39,7 +39,7 @@ pipeline{
         stage("test"){
             steps{
                 dir('./e2e') {
-                    sh """sudo chmod 777 test.sh && ./test.sh"""
+                    sh """ chmod 777 test.sh && ./test.sh"""
                 }
                 
             }
