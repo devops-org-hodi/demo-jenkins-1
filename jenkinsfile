@@ -63,7 +63,13 @@ pipeline{
         }
         stage("push to dockerhub "){
             steps{
-                sh 'echo hello'
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-cred', 
+                    usernameVariable: 'USERNAME', 
+                    passwordVariable: 'PASS'
+                )]) {
+                    sh "$USERNAME $PASS"
+                }
             }
         }
         stage("validate"){
