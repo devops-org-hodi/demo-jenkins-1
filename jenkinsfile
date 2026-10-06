@@ -16,10 +16,10 @@ pipeline{
                       ./src/ 
                    """
             }
-        }
-        post{
-            success{
-                sh "docker images | grep -i $APP_NAME "
+            post{
+                success{
+                    sh "docker images | grep -i $APP_NAME "
+                }
             }
         }
         stage("test"){
@@ -51,3 +51,5 @@ pipeline{
         }
     }
 }
+
+
