@@ -33,20 +33,29 @@ pipeline{
             post{
                 always{
                     sh 'docker ps '
+                    sh "docker logs $CONTAINER_NAME"
                 }
             }
         }
         stage("test"){
-            steps{
-                sh "pwd ; ls"
-                dir("$TEST_DIR/e2e") {
-                    sh "pwd ; ls"
-                    sh " chmod 777 test.sh"
-                    sh " ./test.sh"
+            parallel{
+                stage("e2e test"){
+                    steps{
+                        dir("$TEST_DIR/e2e") {
+                            sh " chmod 777 test.sh"
+                            sh " ./test.sh"
+                        }
+                    }
                 }
-                
-            }
-        }        
+                stage("regression test"){
+                    steps{
+                        dir("$TEST_DIR/regression") {
+                            sh "python3 test.py"
+                        }
+                    }
+                }
+            }        
+        }
         stage("push to dockerhub "){
             steps{
                 sh 'echo hello'
