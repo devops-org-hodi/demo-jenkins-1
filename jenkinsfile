@@ -84,7 +84,7 @@ pipeline{
                         sh " git clone https://$USERNAME:$PASS@github.com/devops-org-hodi/flask-app-deployment"
                         dir("flask-app-deployment/k8s"){
                             sh """
-                            sed -i "s/image:.*/image: $DOCKER_IMAGE/g" manifest.yaml
+                            sed -i 's/image:.*/image: $DOCKER_IMAGE/g' manifest.yaml
                             git config user.name jenkins
                             git config user.email jenkins@jenkins.jenkins
                             git add manifest.yaml
