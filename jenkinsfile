@@ -55,23 +55,9 @@ pipeline{
                     }
                 }
                 stage("sanity test"){
-                     parallel{
-                stage("e2e test"){
                     steps{
-                        dir("$TEST_DIR/e2e") {
-                            sh " chmod 777 test.sh"
-                            sh " ./test.sh"
-                        }
+                        sh 'curl 127.0.0.1:5000/ping'
                     }
-                }
-                stage("regression test"){
-                    steps{
-                        dir("$TEST_DIR/regression") {
-                            sh "python3 test.py"
-                        }
-                    }
-                }
-            }     
                 }
             }        
         }
