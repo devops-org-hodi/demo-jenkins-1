@@ -2,8 +2,8 @@ pipeline{
     agent any
 
     environment{
-        APP_NAME="PINGPONG"
-        DOCKER_IMAGE="$APP_NAME:V$BUILD_NUMBER"
+        APP_NAME="pingpong"
+        DOCKER_IMAGE="$APP_NAME:v$BUILD_NUMBER"
     }
 
     stages{
