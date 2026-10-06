@@ -1,12 +1,17 @@
 pipeline{
     agent any
 
+    environment{
+        APP_NAME="PINGPONG"
+        DOCKER_IMAGE="$APP_NAME:V$BUILD_NUMBER"
+    }
+
     stages{
         stage("build"){
             steps{
                 echo "========= building docker images ========="
                 sh 'docker ps'
-                
+                sh "docker build -t $DOCKER_IMAGE ./src/ "
             }
         }
         stage("test"){
