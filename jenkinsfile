@@ -2,23 +2,23 @@ pipeline{
     agent any
 
     stages{
-        stage("test"){
+        stage("build"){
             steps{
                 sh 'ls'
                 sh 'date > file1.txt'
             }
         }
-        stage("B2"){
+        stage("test"){
             steps{
                 sh 'echo hello'
             }
         }        
-        stage("B3"){
+        stage("push to dockerhub "){
             steps{
                 sh 'echo hello'
             }
         }
-        stage("B4"){
+        stage("validate"){
             steps{
                 sh 'echo hello'
             }
