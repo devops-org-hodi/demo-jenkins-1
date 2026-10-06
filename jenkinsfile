@@ -5,6 +5,8 @@ pipeline{
         APP_NAME="pingpong"
         DOCKER_IMAGE="$APP_NAME:v$BUILD_NUMBER"
         CONTAINER_NAME="yabadabadoo"
+        TEST_REPO=" https://github.com/devops-org-hodi/jenkins-demo1-test.git"
+        TEST_DIR="jenkins-demo1-test"
     }
 
     stages{
@@ -26,6 +28,7 @@ pipeline{
         stage("prepare application for testing"){
             steps{
                 sh "docker run -d -p 5000:5000 --name $CONTAINER_NAME $DOCKER_IMAGE"
+                sh "git clone $TEST_REPO "
             }
             post{
                 always{
@@ -35,7 +38,10 @@ pipeline{
         }
         stage("test"){
             steps{
-                sh 'echo hello'
+                dir('./e2e') {
+                    sh """sudo chmod 777 test.sh && ./test.sh"""
+                }
+                
             }
         }        
         stage("push to dockerhub "){
