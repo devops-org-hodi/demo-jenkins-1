@@ -73,9 +73,26 @@ pipeline{
                 }
             }
         }
-        stage("validate"){
+        stage("upate manifest"){
             steps{
-                sh 'echo hello'
+                echo "clone the deploy repo"
+                 withCredentials([usernamePassword(
+                    credentialsId: 'github-cred', 
+                    usernameVariable: 'USERNAME', 
+                    passwordVariable: 'PASS'
+                )]){
+                        sh " git clone https://$USERNAME:$PASS@github.com/devops-org-hodi/flask-app-deployment"
+                        dir("flask-app-deployment/k8s"){
+                            sh """
+                            sed -i "s/image:.*/image: $DOCKER_IMAGE/g" manifest.yaml
+                            git config user.name jenkins
+                            git config user.email jenkins@jenkins.jenkins
+                            git add manifest.yaml
+                            git commit -m "jenkins: build $BUILD_NUMBER of $JOB_NAME"
+                            git push 
+                        """
+                        }
+                }
             }
         }
     }
